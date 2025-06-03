@@ -28,5 +28,35 @@ public class BinaryTree<T> {
   private Comparator<T> comparator;
   private int size;
 
+  // Constructs a empty binary tree
+  public BinaryTree(Comparator<T> c) {
+    root = null;
+    comparator = c;
+    size = 0;
+  }
+
+  // Adding a Node to the binary tree
+  public void add (T item) { }
+  private void add(Node<T> tree, Node<T> newNode) { }
+
+  public void remove(T item) { }
+  private void remove(Node<T> tree, T item) { }
+
+  public boolean contains(T item) { }
+  private boolean contains(Node<T> tree, T item) { }
+
+  public boolean isEmpty() { }
+
+  public int size() { }
+
+  public void print() { }
+  private void print(Node<T> node) { }
+
+
+
+
+
+
+
   
 }
