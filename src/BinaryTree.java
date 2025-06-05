@@ -72,8 +72,34 @@ public class BinaryTree<T> {
     public void remove(T item) { }
     private void remove(Node<T> tree, T item) { }
 
-    public boolean contains(T item) { }
-    private boolean contains(Node<T> tree, T item) { }
+    // Checks if the binary tree contains a specific item
+    public boolean contains(T item) {
+        return contains(root, item);
+    }
+
+    // Recursive helper method to check if the binary tree contains a specific item
+    private boolean contains(Node<T> tree, T item) {
+        // Check if the tree is empty
+        if (tree == null) {
+            return false;
+        }
+
+        // Compare the item with the value of the current node
+        int compare = comparator.compare(item, tree.value);
+
+        // Check if match was found
+        if (compare == 0) {
+            return true
+        // Check to see if the item is less than the value of the current node
+        } else if (compare < 0) {
+            // Recurse on the left subtree
+            return contains(tree.leftTree, item);
+        // Item is greater than value of the current node
+        } else {
+            // Recurse on the right subtree
+            return contains(tree.rightTree, item);
+        }
+    }
 
     // Checks if the binary tree is empty
     public boolean isEmpty() {
