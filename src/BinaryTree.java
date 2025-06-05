@@ -1,6 +1,8 @@
 import java.util.Comparator;
 
+
 public class BinaryTree<T> {
+
     
     // Node class representing each node in the binary tree
     static class Node<T> {
@@ -36,13 +38,13 @@ public class BinaryTree<T> {
 
     // Adding a Node to the binary tree
     public void add (T item) { 
-        add(root, new Node<T>)
+        add(root, new Node<T>(item, null, null));
     }
 
     // Helper method to add a new node to the binary tree
     private void add(Node<T> tree, Node<T> newNode) {
         // Check if the tree is empty
-        if (root == null) {
+        if (tree == null) {
             // If it is, set the new node as the root
             root = newNode;
             size++;
@@ -67,10 +69,56 @@ public class BinaryTree<T> {
             }
         }
     }
-    
+
     // Removing a node from the binary tree
-    public void remove(T item) { }
-    private void remove(Node<T> tree, T item) { }
+    public void remove(T item) {
+        root = remove(root, item);
+    }
+
+    private Node<T> remove(Node<T> tree, T item) {
+        // Base case: tree is empty
+        if (tree == null) {
+            return null;
+        }
+
+        int compare = comparator.compare(item, tree.value);
+
+        // Check if item is less than the current nodes value
+        if (compare < 0) {
+            // Recurse on the left subtree
+            tree.leftTree = remove(tree.leftTree, item);
+        // Check if item is larger than the current nodes value
+        } else if (compare > 0) {
+            // Recurse on the right subtree
+            tree.rightTree = remove(tree.rightTree, item);
+        // Found node to remove
+        } else {
+            // Check if node is a leaf
+            if (tree.leftTree == null && tree.rightTree == null) {
+                size--;
+                return null;
+            }
+
+            // Node only has a right child
+            if (tree.leftTree == null) {
+                size--;
+                return tree.rightTree;
+            }
+
+            // Node only has a left child
+            if (tree.rightTree == null) {
+                size--;
+                return tree.leftTree;
+            }
+
+            // Node has two children
+            Node<T> minNode = findMin(tree.rightTree);
+            tree.value = minNode.value;
+            tree.rightTree = remove(tree.rightTree, minNode.value);
+        }
+        return tree;
+    }
+
 
     // Checks if the binary tree contains a specific item
     public boolean contains(T item) {
@@ -89,7 +137,7 @@ public class BinaryTree<T> {
 
         // Check if match was found
         if (compare == 0) {
-            return true
+            return true;
         // Check to see if the item is less than the value of the current node
         } else if (compare < 0) {
             // Recurse on the left subtree
@@ -128,11 +176,20 @@ public class BinaryTree<T> {
         }
     }
 
+    // Helper method to find the min value node in a subtree
+    private Node<T> findMin(Node<T> tree) {
+        while (tree.leftTree != null) {
+            tree = tree.leftTree;
+        }
+        return tree;
+    }
+
     // Returns the height of the binary tree
     private int getHeight(Node<T> node) {
         if (node == null) {
             return 0;
         }
+
         int leftHeight = getHeight(node.leftTree);
         int rightHeight = getHeight(node.rightTree);
         return Math.max(leftHeight, rightHeight) + 1;
